@@ -8,36 +8,45 @@ import {
   ViroFlexView,
 } from 'react-viro';
 import { ProductInformation } from './products/ProductInformation';
-import ARImage from './res/k-classic-front.jpg';
+import { ProductsApiService } from './products/ProductsApiService';
+import Images from './products/ProductImages';
 
 const initialProduct = {
-  text: 'Initializing AR...',
+  title: 'Initializing AR...',
 };
 
-const products = [
-  {
-    id: '1',
-    title: 'K Classic Milch',
-    category: 'Milchprodukt',
-    img: './res/k-classic-front.jpg',
-  },
-];
-
+const productsApiService = new ProductsApiService();
 class HelloWorldSceneAR extends Component {
   constructor() {
     super();
 
     // Set initial state here
     this.state = {
-      product: initialProduct,
+      recognizedProduct: initialProduct,
+      products: [],
     };
+  }
+
+  async componentDidMount() {
+    console.log(MILK_TARGET);
+    const products = await productsApiService.getAllProducts();
+    this.setState({ products });
+  }
+
+  componentDidUpdate() {
+    ViroARTrackingTargets.createTargets({
+      ...buildProductTargets(this.state.products),
+    });
   }
 
   render() {
     return (
       <ViroARScene>
-        {products.map((product) => (
-          <ViroARImageMarker key={product.id} target={product.id}>
+        {this.state.products.map((product) => (
+          <ViroARImageMarker
+            key={product.product_id}
+            target={product.product_id.toString()}
+          >
             <ViroFlexView
               position={[0, 0, 0]}
               rotation={[0, 90, 90]}
@@ -47,6 +56,7 @@ class HelloWorldSceneAR extends Component {
               <ProductInformation
                 title={product.title}
                 category={product.category}
+                description={product.description}
               />
             </ViroFlexView>
           </ViroARImageMarker>
@@ -56,16 +66,26 @@ class HelloWorldSceneAR extends Component {
   }
 }
 
-const productTargets = {};
+const getProductImageByProduct = (product) => {
+  if (product.title.includes('K Classic')) {
+    return Images[1];
+  }
+  if (product.title.includes('Landliebe')) {
+    return Images[2];
+  }
+};
 
-products.forEach((product) => {
-  productTargets[product.id] = {
-    source: ARImage,
-    orientation: 'Up',
-    physicalWidth: 0.4,
-  };
-});
-
-ViroARTrackingTargets.createTargets({ ...productTargets });
+const buildProductTargets = (rawProducts) => {
+  const productTargets = {};
+  rawProducts.forEach((product) => {
+    const productImage = getProductImageByProduct(product);
+    productTargets[product.product_id.toString()] = {
+      source: productImage,
+      orientation: 'Up',
+      physicalWidth: 0.4,
+    };
+  });
+  return productTargets;
+};
 
 module.exports = HelloWorldSceneAR;

@@ -4,30 +4,21 @@ import { StyleSheet } from 'react-native';
 import { ViroText } from 'react-viro';
 
 export const ProductInformation = (props) => {
+  const { title, category, description } = props;
   return (
     <>
       <ViroText
-        text={props.title}
+        text={title}
         rotation={[0, 0, -90]}
         position={[0.5, 0, 0]}
-        onDrag={(dragToPos) => {
-          this.setState({
-            test: { ...this.state.text, position: dragToPos },
-          });
-        }}
         width={4}
         height={2}
         style={styles.testText}
       />
       <ViroText
-        text={props.category}
+        text={description}
         rotation={[0, 0, -90]}
         position={[0.2, 0, 0]}
-        onDrag={(dragToPos) => {
-          this.setState({
-            test: { ...this.state.text, position: dragToPos },
-          });
-        }}
         width={4}
         height={2}
         style={styles.testText}
@@ -50,4 +41,5 @@ const styles = StyleSheet.create({
 ProductInformation.propTypes = {
   title: PropTypes.string,
   category: PropTypes.string,
+  description: PropTypes.string,
 };
