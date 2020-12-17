@@ -28,7 +28,6 @@ class HelloWorldSceneAR extends Component {
   }
 
   async componentDidMount() {
-    console.log(MILK_TARGET);
     const products = await productsApiService.getAllProducts();
     this.setState({ products });
   }
@@ -53,11 +52,7 @@ class HelloWorldSceneAR extends Component {
               height={0.4}
               width={0.7}
             >
-              <ProductInformation
-                title={product.title}
-                category={product.category}
-                description={product.description}
-              />
+              <ProductInformation product={product} />
             </ViroFlexView>
           </ViroARImageMarker>
         ))}
@@ -66,19 +61,10 @@ class HelloWorldSceneAR extends Component {
   }
 }
 
-const getProductImageByProduct = (product) => {
-  if (product.title.includes('K Classic')) {
-    return Images[1];
-  }
-  if (product.title.includes('Landliebe')) {
-    return Images[2];
-  }
-};
-
 const buildProductTargets = (rawProducts) => {
   const productTargets = {};
   rawProducts.forEach((product) => {
-    const productImage = getProductImageByProduct(product);
+    const productImage = Images[`product_id${product.product_id}`];
     productTargets[product.product_id.toString()] = {
       source: productImage,
       orientation: 'Up',
