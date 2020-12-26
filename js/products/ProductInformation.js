@@ -4,7 +4,9 @@ import { StyleSheet } from 'react-native';
 import { ViroText } from 'react-viro';
 
 export const ProductInformation = (props) => {
-  const { title, category, description } = props;
+  const {
+    product: { title, description },
+  } = props;
   return (
     <>
       <ViroText
