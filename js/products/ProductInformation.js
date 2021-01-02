@@ -1,47 +1,87 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet } from 'react-native';
-import { ViroText } from 'react-viro';
+import { ViroText, ViroFlexView } from 'react-viro';
 
 export const ProductInformation = (props) => {
   const {
-    product: { title, description },
-  } = props;
+    product_id,
+    title,
+    description,
+    price,
+    origin,
+    warnings,
+  } = props.product;
+
+  const width = 1.0;
   return (
-    <>
+    <ViroFlexView
+      key={product_id}
+      width={width}
+      height={1.5}
+      rotation={[-90, 0, 0]}
+      style={styles.informationPane}
+      backgroundColor="rgba(50,50,50,0.8)"
+    >
       <ViroText
         text={title}
-        rotation={[0, 0, -90]}
-        position={[0.5, 0, 0]}
-        width={4}
-        height={2}
-        style={styles.testText}
+        width={width}
+        textLineBreakMode="Justify"
+        textClipMode="ClipToBounds"
+        color="white"
+        textAlign="center"
+        style={styles.title}
       />
       <ViroText
         text={description}
-        rotation={[0, 0, -90]}
-        position={[0.2, 0, 0]}
-        width={4}
-        height={2}
+        width={width}
+        color="white"
+        textLineBreakMode="Justify"
+        textClipMode="ClipToBounds"
+        position={[0, -0.4, 0]}
         style={styles.testText}
       />
-    </>
+      <ViroText
+        text={`Preis: ${price.toString()}€`}
+        width={width}
+        color="white"
+        position={[0, -0.75, 0]}
+        style={styles.testText}
+      />
+      <ViroText
+        text={`Herkunft: ${origin}`}
+        width={width}
+        color="white"
+        position={[0, -0.85, 0]}
+        style={styles.testText}
+      />
+      <ViroText
+        text={`Hinweise: ${warnings}`}
+        width={width}
+        color="white"
+        textLineBreakMode="Justify"
+        textClipMode="ClipToBounds"
+        position={[0, -1, 0]}
+        style={styles.testText}
+      />
+    </ViroFlexView>
   );
 };
 
 const styles = StyleSheet.create({
   testText: {
-    fontFamily: 'Arial',
-    fontSize: 8,
-    color: '#000000',
-    textAlignVertical: 'center',
-    textAlign: 'center',
-    flex: 1,
+    fontSize: 10,
+  },
+  title: {
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  informationPane: {
+    flexDirection: 'column',
+    padding: 0.5,
   },
 });
 
 ProductInformation.propTypes = {
-  title: PropTypes.string,
-  category: PropTypes.string,
-  description: PropTypes.string,
+  product: PropTypes.object,
 };
