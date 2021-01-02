@@ -5,15 +5,10 @@ import {
   ViroARImageMarker,
   ViroARScene,
   ViroARTrackingTargets,
-  ViroFlexView,
 } from 'react-viro';
 import { ProductInformation } from './products/ProductInformation';
 import { ProductsApiService } from './products/ProductsApiService';
 import Images from './products/ProductImages';
-
-const initialProduct = {
-  title: 'Initializing AR...',
-};
 
 const productsApiService = new ProductsApiService();
 class HelloWorldSceneAR extends Component {
@@ -22,7 +17,7 @@ class HelloWorldSceneAR extends Component {
 
     // Set initial state here
     this.state = {
-      recognizedProduct: initialProduct,
+      recognizedTarget: null,
       products: [],
     };
   }
@@ -45,15 +40,14 @@ class HelloWorldSceneAR extends Component {
           <ViroARImageMarker
             key={product.product_id}
             target={product.product_id.toString()}
+            onAnchorUpdated={() => {
+              if (this.state.recognizedTarget !== product.product_id) {
+                this.setState({ recognizedTarget: product.product_id });
+              }
+            }}
+            visible={this.state.recognizedTarget === product.product_id}
           >
-            <ViroFlexView
-              position={[0, 0, 0]}
-              rotation={[0, 90, 90]}
-              height={0.4}
-              width={0.7}
-            >
-              <ProductInformation product={product} />
-            </ViroFlexView>
+            <ProductInformation product={product} />
           </ViroARImageMarker>
         ))}
       </ViroARScene>

@@ -88,6 +88,7 @@ export default class ViroSample extends Component {
     return (
       <ViroARSceneNavigator
         {...this.state.sharedProps}
+        autofocus={true}
         initialScene={{ scene: InitialARScene }}
       />
     );
