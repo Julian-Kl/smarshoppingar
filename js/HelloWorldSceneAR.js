@@ -62,7 +62,8 @@ const buildProductTargets = (rawProducts) => {
     productTargets[product.product_id.toString()] = {
       source: productImage,
       orientation: 'Up',
-      physicalWidth: 0.4,
+      physicalWidth: 0.9,
+      type: 'Image',
     };
   });
   return productTargets;
