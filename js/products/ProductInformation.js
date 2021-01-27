@@ -16,7 +16,7 @@ export const ProductInformation = (props) => {
   const titleLengthRatio = 0.01;
   const bodyLengthRatio = 0.008;
 
-  const width = 1.0;
+  const width = 1.5;
   const titleHeight = titleLengthRatio * title.length + 0.2;
   const descriptionHeight = bodyLengthRatio * description.length + 0.1;
   const priceHeight = 0.1;
@@ -37,45 +37,29 @@ export const ProductInformation = (props) => {
     <ViroFlexView
       key={product_id}
       width={width}
-      height={totalHeight}
+      height={2.5}
       rotation={[-90, 0, 0]}
       style={styles.informationPane}
       backgroundColor="rgba(50,50,50,0.8)"
     >
       <ViroText
-        text={title}
-        textLineBreakMode="Justify"
-        textClipMode="ClipToBounds"
+        text={`${title}`}
+        height={0.6}
+        width={width - 0.2}
         color="white"
         textAlign="center"
+        position={[0, 1, 0]}
         style={styles.title}
       />
       <ViroText
-        text={description}
+        text={`${description}
+
+Preis: ${price}
+Herkunft: ${origin}
+Hinweise: ${warnings}`}
+        height={1.4}
+        width={width - 0.2}
         color="white"
-        textLineBreakMode="Justify"
-        textClipMode="ClipToBounds"
-        position={[0, descriptionY, 0]}
-        style={styles.testText}
-      />
-      <ViroText
-        text={`Preis: ${price.toString()}€`}
-        color="white"
-        position={[0, priceY, 0]}
-        style={styles.testText}
-      />
-      <ViroText
-        text={`Herkunft: ${origin}`}
-        color="white"
-        position={[0, originY, 0]}
-        style={styles.testText}
-      />
-      <ViroText
-        text={`Hinweise: ${warnings}`}
-        color="white"
-        textLineBreakMode="Justify"
-        textClipMode="ClipToBounds"
-        position={[0, warningsY, 0]}
         style={styles.testText}
       />
     </ViroFlexView>
